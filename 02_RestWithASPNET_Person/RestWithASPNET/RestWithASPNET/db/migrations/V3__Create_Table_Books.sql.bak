@@ -1,0 +1,7 @@
+CREATE TABLE `rest_aspnet`.`books` (
+  `Id` INT(10) NOT NULL AUTO_INCREMENT,
+  `Title` VARCHAR(80) NOT NULL,
+  `Author` VARCHAR(80) NOT NULL,
+  `Price` DECIMAL(65,2) NOT NULL,
+  `LaunchDate` VARCHAR(6) NOT NULL,
+  PRIMARY KEY (`Id`));
