@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  rest_aspnet:
+    image: rest_aspnet
+    build:
+      context: .
+      dockerfile: RestWithASPNET/Dockerfile
+    environment:
+      TZ: America/Sao_Paulo
+      ASPNETCORE_ENVIRONMENT: Production
+    ports:
+      - 4430:80
+    depends_on:
+      - db
+    networks:
+      - rest-aspnet-network
+networks:
+  rest-aspnet-network:
+    driver: bridge
