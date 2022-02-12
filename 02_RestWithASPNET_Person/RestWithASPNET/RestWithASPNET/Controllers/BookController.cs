@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using RestWithASPNET.Model;
 using RestWithASPNET.Business;
 using System.Collections.Generic;
+using RestWithASPNET.Data.DTO;
 
 namespace RestWithASPNET.Controllers
 {
@@ -29,7 +30,7 @@ namespace RestWithASPNET.Controllers
         // Maps GET requests to https://localhost:{port}/api/book
         // Get no parameters for FindAll -> Search All
         [HttpGet]
-        [ProducesResponseType((200), Type = typeof(List<Book>))]
+        [ProducesResponseType((200), Type = typeof(List<BookDTO>))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
@@ -42,7 +43,7 @@ namespace RestWithASPNET.Controllers
         // receiving an ID as in the Request Path
         // Get with parameters for FindById -> Search by ID
         [HttpGet("{id}")]
-        [ProducesResponseType((200), Type = typeof(Book))]
+        [ProducesResponseType((200), Type = typeof(BookDTO))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
@@ -56,10 +57,10 @@ namespace RestWithASPNET.Controllers
         // Maps POST requests to https://localhost:{port}/api/book/
         // [FromBody] consumes the JSON object sent in the request body
         [HttpPost]
-        [ProducesResponseType((200), Type = typeof(Book))]
+        [ProducesResponseType((200), Type = typeof(BookDTO))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public IActionResult Post([FromBody] Book book)
+        public IActionResult Post([FromBody] BookDTO book)
         {
             if (book == null) return BadRequest();
             return Ok(_bookBusiness.Create(book));
@@ -68,10 +69,10 @@ namespace RestWithASPNET.Controllers
         // Maps PUT requests to https://localhost:{port}/api/book/
         // [FromBody] consumes the JSON object sent in the request body
         [HttpPut]
-        [ProducesResponseType((200), Type = typeof(Book))]
+        [ProducesResponseType((200), Type = typeof(BookDTO))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public IActionResult Put([FromBody] Book book)
+        public IActionResult Put([FromBody] BookDTO book)
         {
             if (book == null) return BadRequest();
             return Ok(_bookBusiness.Update(book));

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using RestWithASPNET.Model;
 using RestWithASPNET.Business;
 using System.Collections.Generic;
+using RestWithASPNET.Data.DTO;
 
 namespace RestWithASPNET.Controllers
 {
@@ -29,7 +30,7 @@ namespace RestWithASPNET.Controllers
         // Maps GET requests to https://localhost:{port}/api/person
         // Get no parameters for FindAll -> Search All
         [HttpGet]
-        [ProducesResponseType((200), Type = typeof(List<Person>))]
+        [ProducesResponseType((200), Type = typeof(List<PersonDTO>))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
@@ -42,7 +43,7 @@ namespace RestWithASPNET.Controllers
         // receiving an ID as in the Request Path
         // Get with parameters for FindById -> Search by ID
         [HttpGet("{id}")]
-        [ProducesResponseType((200), Type = typeof(Person))]
+        [ProducesResponseType((200), Type = typeof(PersonDTO))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
@@ -56,10 +57,10 @@ namespace RestWithASPNET.Controllers
         // Maps POST requests to https://localhost:{port}/api/person/
         // [FromBody] consumes the JSON object sent in the request body
         [HttpPost]
-        [ProducesResponseType((200), Type = typeof(Person))]
+        [ProducesResponseType((200), Type = typeof(PersonDTO))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public IActionResult Post([FromBody] Person person)
+        public IActionResult Post([FromBody] PersonDTO person)
         {
             if (person == null) return BadRequest();
             return Ok(_personBusiness.Create(person));
@@ -68,10 +69,10 @@ namespace RestWithASPNET.Controllers
         // Maps PUT requests to https://localhost:{port}/api/person/
         // [FromBody] consumes the JSON object sent in the request body
         [HttpPut]
-        [ProducesResponseType((200), Type = typeof(Person))]
+        [ProducesResponseType((200), Type = typeof(PersonDTO))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public IActionResult Put([FromBody] Person person)
+        public IActionResult Put([FromBody] PersonDTO person)
         {
             if (person == null) return BadRequest();
             return Ok(_personBusiness.Update(person));
