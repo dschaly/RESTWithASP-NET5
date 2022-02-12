@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using RestWithASPNET.Model;
 using RestWithASPNET.Business;
+using System.Collections.Generic;
 
 namespace RestWithASPNET.Controllers
 {
@@ -28,6 +29,10 @@ namespace RestWithASPNET.Controllers
         // Maps GET requests to https://localhost:{port}/api/book
         // Get no parameters for FindAll -> Search All
         [HttpGet]
+        [ProducesResponseType((200), Type = typeof(List<Book>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Get()
         {
             return Ok(_bookBusiness.FindAll());
@@ -37,6 +42,10 @@ namespace RestWithASPNET.Controllers
         // receiving an ID as in the Request Path
         // Get with parameters for FindById -> Search by ID
         [HttpGet("{id}")]
+        [ProducesResponseType((200), Type = typeof(Book))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Get(long id)
         {
             var book = _bookBusiness.FindByID(id);
@@ -47,6 +56,9 @@ namespace RestWithASPNET.Controllers
         // Maps POST requests to https://localhost:{port}/api/book/
         // [FromBody] consumes the JSON object sent in the request body
         [HttpPost]
+        [ProducesResponseType((200), Type = typeof(Book))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Post([FromBody] Book book)
         {
             if (book == null) return BadRequest();
@@ -56,6 +68,9 @@ namespace RestWithASPNET.Controllers
         // Maps PUT requests to https://localhost:{port}/api/book/
         // [FromBody] consumes the JSON object sent in the request body
         [HttpPut]
+        [ProducesResponseType((200), Type = typeof(Book))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Put([FromBody] Book book)
         {
             if (book == null) return BadRequest();
@@ -65,6 +80,9 @@ namespace RestWithASPNET.Controllers
         // Maps DELETE requests to https://localhost:{port}/api/book/{id}
         // receiving an ID as in the Request Path
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Delete(long id)
         {
             _bookBusiness.Delete(id);

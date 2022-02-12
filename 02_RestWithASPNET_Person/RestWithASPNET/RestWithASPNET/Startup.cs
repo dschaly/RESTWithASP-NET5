@@ -12,6 +12,8 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using RestWithASPNET.Repository.Generic;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace RestWithASPNET
 {
@@ -40,13 +42,28 @@ namespace RestWithASPNET
             var connection = Configuration["MySQLConnection:MySQLConnectionString"];
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
 
-            //if (Environment.IsDevelopment())
-            //{
-            //    MigrateDatabase(connection);
-            //}
+            if (Environment.IsDevelopment())
+            {
+                MigrateDatabase(connection);
+            }
 
             //Versioning API
             services.AddApiVersioning();
+
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "REST APIs to Azure with ASP.NET Core 5 and Docker",
+                        Version = "v1",
+                        Description = "Development of a RESTful API",
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Davidson Schaly",
+                            Url = new Uri("https://github.com/dschaly")
+                        }
+                    });
+            });
 
             //Dependency Injection
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
@@ -67,6 +84,19 @@ namespace RestWithASPNET
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                    "REST APIs to Azure with ASP.NET Core 5 and Docker");
+            });
+
+            var option = new RewriteOptions();
+
+            option.AddRedirect("^$", "swagger");
+
+            app.UseRewriter(option);
 
             app.UseAuthorization();
 
