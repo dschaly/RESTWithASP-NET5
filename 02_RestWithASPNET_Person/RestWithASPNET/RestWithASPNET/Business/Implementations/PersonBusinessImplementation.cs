@@ -7,9 +7,9 @@ namespace RestWithASPNET.Business.Implementations
     public class PersonBusinessImplementation : IPersonBusiness
     {
 
-        private readonly IPersonRepository _repository;
+        private readonly IRepository<Person> _repository;
 
-        public PersonBusinessImplementation(IPersonRepository repository)
+        public PersonBusinessImplementation(IRepository<Person> repository)
         {
             _repository = repository;
         }
@@ -42,13 +42,6 @@ namespace RestWithASPNET.Business.Implementations
         public void Delete(long id)
         {
             _repository.Delete(id);
-        }
-
-        public Person Disable(long id)
-        {
-            var person = _repository.Disable(id);
-
-            return person;
         }
     }
 }
