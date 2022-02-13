@@ -5,9 +5,7 @@ using RestWithASPNET.Repository;
 using RestWithASPNET.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace RestWithASPNET.Business.Implementations
 {
@@ -90,6 +88,11 @@ namespace RestWithASPNET.Business.Implementations
                 accessToken,
                 refreshToken
                 );
+        }
+
+        public bool RevokeToken(string userName)
+        {
+            return _repository.RevokeToken(userName);
         }
     }
 }

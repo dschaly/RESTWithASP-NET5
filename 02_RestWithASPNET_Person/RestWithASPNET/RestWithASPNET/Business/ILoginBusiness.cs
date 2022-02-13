@@ -1,8 +1,4 @@
 ﻿using RestWithASPNET.Data.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RestWithASPNET.Business
 {
@@ -10,5 +6,6 @@ namespace RestWithASPNET.Business
     {
         TokenDTO ValidateCredentials(UserDTO user);
         TokenDTO ValidateCredentials(TokenDTO token);
+        bool RevokeToken(string userName);
     }
 }

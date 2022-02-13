@@ -76,7 +76,7 @@ namespace RestWithASPNET
             {
                 auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser().Build());
+                    .RequireAuthenticatedUser().Build())
             });
 
             services.AddCors(options => options.AddDefaultPolicy(builder =>
