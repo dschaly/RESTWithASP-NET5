@@ -3,7 +3,7 @@ CREATE TABLE `rest_aspnet`.`users` (
   `UserName` VARCHAR(50) NOT NULL DEFAULT 0,
   `Password` VARCHAR(130) NOT NULL DEFAULT 0,
   `FullName` VARCHAR(120) NOT NULL,
-  `RefreshToken` VARCHAR(500) NOT NULL DEFAULT 0,
+  `RefreshToken` VARCHAR(500) NULL DEFAULT 0,
   `RefreshTokenExpiryTime` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `UserName_UNIQUE` (`UserName` ASC) VISIBLE)
