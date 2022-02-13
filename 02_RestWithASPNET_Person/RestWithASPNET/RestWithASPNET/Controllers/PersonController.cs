@@ -4,12 +4,14 @@ using RestWithASPNET.Model;
 using RestWithASPNET.Business;
 using System.Collections.Generic;
 using RestWithASPNET.Data.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RestWithASPNET.Controllers
 {
 
     [ApiVersion("1")]
     [ApiController]
+    [Authorize("Bearer")]
     [Route("api/[controller]/v{version:apiVersion}")]
     public class PersonController : ControllerBase
     {
