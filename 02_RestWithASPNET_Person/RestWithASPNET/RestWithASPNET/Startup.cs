@@ -22,6 +22,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using RestWithASPNET.HyperMedia.Filters;
+using RestWithASPNET.HyperMedia.Enricher;
 
 namespace RestWithASPNET
 {
@@ -76,7 +78,7 @@ namespace RestWithASPNET
             {
                 auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser().Build())
+                    .RequireAuthenticatedUser().Build());
             });
 
             services.AddCors(options => options.AddDefaultPolicy(builder =>
@@ -94,6 +96,12 @@ namespace RestWithASPNET
             {
                 MigrateDatabase(connection);
             }
+
+            var filterOptions = new HyperMediaFilterOptions();
+            filterOptions.ContentResponseEnricherList.Add(new PersonEnricher());
+            filterOptions.ContentResponseEnricherList.Add(new BookEnricher());
+
+            services.AddSingleton(filterOptions);
 
             //Versioning API
             services.AddApiVersioning();
@@ -121,6 +129,7 @@ namespace RestWithASPNET
             services.AddTransient<ITokenService, TokenService>();
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
 
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }
@@ -158,6 +167,7 @@ namespace RestWithASPNET
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute("DefaultApi", "{controller=values}/{id?}");
             });
         }
         private void MigrateDatabase(string connection)

@@ -9,26 +9,20 @@ namespace RestWithASPNET.Business.Implementations
     public class PersonBusinessImplementation : IPersonBusiness
     {
 
-        private readonly IRepository<Person> _repository;
+        private readonly IPersonRepository _repository;
         private readonly PersonConverter _converter;
 
-        public PersonBusinessImplementation(IRepository<Person> repository)
+        public PersonBusinessImplementation(IPersonRepository repository)
         {
             _repository = repository;
             _converter = new PersonConverter();
         }
 
         // Method responsible for returning all people,
-        public List<PersonDTO> FindAll()
-        {
-            return _converter.Parse(_repository.FindAll());
-        }
+        public List<PersonDTO> FindAll() => _converter.Parse(_repository.FindAll());
 
         // Method responsible for returning one person by ID
-        public PersonDTO FindByID(long id)
-        {
-            return _converter.Parse(_repository.FindByID(id));
-        }
+        public PersonDTO FindByID(long id) => _converter.Parse(_repository.FindByID(id));
 
         // Method responsible to crete one new person
         public PersonDTO Create(PersonDTO person)
@@ -51,5 +45,8 @@ namespace RestWithASPNET.Business.Implementations
         {
             _repository.Delete(id);
         }
+
+        // Method responsible for disabling a person from and ID
+        public PersonDTO Disable(long id) => _converter.Parse(_repository.Disable(id));
     }
 }
