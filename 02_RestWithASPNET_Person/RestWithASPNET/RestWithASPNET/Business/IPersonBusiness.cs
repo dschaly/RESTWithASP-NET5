@@ -7,6 +7,7 @@ namespace RestWithASPNET.Business
     {
         PersonDTO Create(PersonDTO person);
         PersonDTO FindByID(long id);
+        List<PersonDTO> FindByName(string firstName, string lastName);
         List<PersonDTO> FindAll();
         PersonDTO Update(PersonDTO person);
         PersonDTO Disable(long id);

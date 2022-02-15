@@ -1,6 +1,5 @@
 ﻿using RestWithASPNET.Data.Converter.Implementations;
 using RestWithASPNET.Data.DTO;
-using RestWithASPNET.Model;
 using RestWithASPNET.Repository;
 using System.Collections.Generic;
 
@@ -23,6 +22,9 @@ namespace RestWithASPNET.Business.Implementations
 
         // Method responsible for returning one person by ID
         public PersonDTO FindByID(long id) => _converter.Parse(_repository.FindByID(id));
+
+        // Method responsible for returning one person by First and/or Last Name
+        public List<PersonDTO> FindByName(string firstName, string lastName) => _converter.Parse(_repository.FindByName(firstName, lastName));
 
         // Method responsible to crete one new person
         public PersonDTO Create(PersonDTO person)
@@ -48,5 +50,6 @@ namespace RestWithASPNET.Business.Implementations
 
         // Method responsible for disabling a person from and ID
         public PersonDTO Disable(long id) => _converter.Parse(_repository.Disable(id));
+
     }
 }
