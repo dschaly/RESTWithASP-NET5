@@ -9,6 +9,7 @@ namespace RestWithASPNET.Business
         PersonDTO FindByID(long id);
         List<PersonDTO> FindAll();
         PersonDTO Update(PersonDTO person);
+        PersonDTO Disable(long id);
         void Delete(long id);
     }
 }

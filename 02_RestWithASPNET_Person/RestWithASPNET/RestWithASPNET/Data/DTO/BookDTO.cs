@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace RestWithASPNET.Data.DTO
 {
-    public class BookDTO : ISupportHyperMedia
+    public class BookDTO : ISupporstHyperMedia
     {
         public long Id { get; set; }
         public string Title { get; set; }

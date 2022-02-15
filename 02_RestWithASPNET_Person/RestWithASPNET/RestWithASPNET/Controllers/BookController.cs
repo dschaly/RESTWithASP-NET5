@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RestWithASPNET.Model;
 using RestWithASPNET.Business;
-using System.Collections.Generic;
 using RestWithASPNET.Data.DTO;
-using Microsoft.AspNetCore.Authorization;
+using RestWithASPNET.HyperMedia.Filters;
+using System.Collections.Generic;
 
 namespace RestWithASPNET.Controllers
 {
@@ -32,6 +32,7 @@ namespace RestWithASPNET.Controllers
         // Maps GET requests to https://localhost:{port}/api/book
         // Get no parameters for FindAll -> Search All
         [HttpGet]
+        [TypeFilter(typeof(HyperMediaFilter))]
         [ProducesResponseType((200), Type = typeof(List<BookDTO>))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -45,6 +46,7 @@ namespace RestWithASPNET.Controllers
         // receiving an ID as in the Request Path
         // Get with parameters for FindById -> Search by ID
         [HttpGet("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
         [ProducesResponseType((200), Type = typeof(BookDTO))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -59,6 +61,7 @@ namespace RestWithASPNET.Controllers
         // Maps POST requests to https://localhost:{port}/api/book/
         // [FromBody] consumes the JSON object sent in the request body
         [HttpPost]
+        [TypeFilter(typeof(HyperMediaFilter))]
         [ProducesResponseType((200), Type = typeof(BookDTO))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
@@ -71,6 +74,7 @@ namespace RestWithASPNET.Controllers
         // Maps PUT requests to https://localhost:{port}/api/book/
         // [FromBody] consumes the JSON object sent in the request body
         [HttpPut]
+        [TypeFilter(typeof(HyperMediaFilter))]
         [ProducesResponseType((200), Type = typeof(BookDTO))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
