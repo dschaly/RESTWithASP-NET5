@@ -64,6 +64,27 @@ namespace RestWithASPNET.Repository.Generic
             return dataset.SingleOrDefault(p => p.Id.Equals(id));
         }
 
+        public List<T> FindPaged(string query)
+        {
+            return dataset.FromSqlRaw<T>(query).ToList();
+        }
+
+        public int GetCount(string query)
+        {
+            var result = string.Empty;
+            using(var connection = _context.Database.GetDbConnection())
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = query;
+                    result = command.ExecuteScalar().ToString();
+                }
+            }
+
+            return int.Parse(result);
+        }
+
         public T Update(T item)
         {
             var result = dataset.SingleOrDefault(p => p.Id.Equals(item.Id));
