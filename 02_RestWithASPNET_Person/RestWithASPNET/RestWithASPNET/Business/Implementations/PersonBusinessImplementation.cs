@@ -1,5 +1,6 @@
 ﻿using RestWithASPNET.Data.Converter.Implementations;
 using RestWithASPNET.Data.DTO;
+using RestWithASPNET.HyperMedia.Utils;
 using RestWithASPNET.Repository;
 using System.Collections.Generic;
 
@@ -19,6 +20,29 @@ namespace RestWithASPNET.Business.Implementations
 
         // Method responsible for returning all people,
         public List<PersonDTO> FindAll() => _converter.Parse(_repository.FindAll());
+        public PagedSearchDTO<PersonDTO> FindPaged(string name, string sortDirection, int pageSize, int page)
+        {
+            var sort = (!string.IsNullOrWhiteSpace(sortDirection) && !sortDirection.Equals("desc")) ? "asc" :  "desc";
+            var size = (pageSize < 1) ? 10 : pageSize;
+            var offset = page > 0 ? (page - 1) * size : 0;
+
+            string query = @$"SELECT * FROM person P WHERE 1 = 1 ";
+            if (!string.IsNullOrWhiteSpace(name)) query += $"AND P.FirstName LIKE '%{name}%' ";
+            query += $"ORDER BY P.FirstName {sort} LIMIT {size} OFFSET {offset}";
+
+            string countQuery = @$"SELECT COUNT(*) FROM Person P WHERE 1 = 1 ";
+            if (!string.IsNullOrWhiteSpace(name)) countQuery += $"AND P.FirstName LIKE '%{name}%'";
+
+            var persons = _repository.FindPaged(query);
+            int totalResults = _repository.GetCount(countQuery);
+
+            return new PagedSearchDTO<PersonDTO> { 
+                CurrentPage = page,
+                List = _converter.Parse(persons),
+                PageSize = size,
+                TotalResults = totalResults
+            };
+        }
 
         // Method responsible for returning one person by ID
         public PersonDTO FindByID(long id) => _converter.Parse(_repository.FindByID(id));

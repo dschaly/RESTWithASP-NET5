@@ -31,15 +31,19 @@ namespace RestWithASPNET.Controllers
 
         // Maps GET requests to https://localhost:{port}/api/person
         // Get no parameters for FindAll -> Search All
-        [HttpGet]
+        [HttpGet("{sortDirection}/{pageSize}/{page}")]
         [TypeFilter(typeof(HyperMediaFilter))]
         [ProducesResponseType((200), Type = typeof(List<PersonDTO>))]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
-        public IActionResult Get()
+        public IActionResult Get(
+            [FromQuery] string name,
+            string sortDirection,
+            int pageSize,
+            int page)
         {
-            return Ok(_personBusiness.FindAll());
+            return Ok(_personBusiness.FindPaged(name, sortDirection, pageSize, page));
         }
 
         // Maps GET requests to https://localhost:{port}/api/person/{id}
