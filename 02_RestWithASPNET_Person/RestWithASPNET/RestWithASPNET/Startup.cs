@@ -24,6 +24,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using RestWithASPNET.HyperMedia.Filters;
 using RestWithASPNET.HyperMedia.Enricher;
+using Microsoft.AspNetCore.Http;
 
 namespace RestWithASPNET
 {
@@ -122,9 +123,13 @@ namespace RestWithASPNET
             });
 
             //Dependency Injection
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
             services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
+            services.AddScoped<IFileBusiness, FileBusinessImplementation>();
 
             services.AddTransient<ITokenService, TokenService>();
 
