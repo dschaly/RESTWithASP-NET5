@@ -1,30 +1,28 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RestWithASPNET.Model.Context;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using RestWithASPNET.Business;
 using RestWithASPNET.Business.Implementations;
+using RestWithASPNET.Configurations;
+using RestWithASPNET.HyperMedia.Enricher;
+using RestWithASPNET.HyperMedia.Filters;
+using RestWithASPNET.Model.Context;
 using RestWithASPNET.Repository;
+using RestWithASPNET.Repository.Generic;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using RestWithASPNET.Repository.Generic;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Rewrite;
-using RestWithASPNET.Services;
-using RestWithASPNET.Services.Implementations;
-using RestWithASPNET.Configurations;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Authorization;
-using RestWithASPNET.HyperMedia.Filters;
-using RestWithASPNET.HyperMedia.Enricher;
-using Microsoft.AspNetCore.Http;
 
 namespace RestWithASPNET
 {
@@ -128,13 +126,6 @@ namespace RestWithASPNET
 
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
-            services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
-            services.AddScoped<IFileBusiness, FileBusinessImplementation>();
-
-            services.AddTransient<ITokenService, TokenService>();
-
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IPersonRepository, PersonRepository>();
 
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }
