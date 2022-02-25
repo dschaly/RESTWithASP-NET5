@@ -37,7 +37,7 @@ namespace RestWithASPNET.Business.Implementations
             };
 
             var accessToken = _tokenService.GenerateAccessToken(claims);
-            var refreshToken = _tokenService.GererateRefreshToken();
+            var refreshToken = _tokenService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryTime = DateTime.Now.AddDays(_tokenConfiguration.DaysToExpire);
@@ -72,7 +72,7 @@ namespace RestWithASPNET.Business.Implementations
                 user.RefreshTokenExpiryTime <= DateTime.Now) return null;
 
             accessToken = _tokenService.GenerateAccessToken(principal.Claims);
-            refreshToken = _tokenService.GererateRefreshToken();
+            refreshToken = _tokenService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
 

@@ -6,7 +6,7 @@ namespace RestWithASPNET.Services
     public interface ITokenService
     {
         string GenerateAccessToken(IEnumerable<Claim> claims);
-        string GererateRefreshToken();
+        string GenerateRefreshToken();
         ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
     }
 }

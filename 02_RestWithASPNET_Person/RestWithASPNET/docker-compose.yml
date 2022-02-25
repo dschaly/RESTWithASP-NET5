@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   db:
-    image: rest-with-aspnet-db
+    image: rest-aspnet-db
     command: mysqld --default-authentication-plugin=mysql_native_password
     restart: always
     build:
@@ -17,7 +17,7 @@ services:
     ports:
       - 3308:3306
     networks:
-      - udemy-network
+      - aspnet-network
       
   rest-with-aspnet:
     image: rest-with-aspnet
@@ -32,7 +32,7 @@ services:
     depends_on:
       - db
     networks:
-      - udemy-network
+      - aspnet-network
 networks:
-  udemy-network:
+  aspnet-network:
     driver: bridge

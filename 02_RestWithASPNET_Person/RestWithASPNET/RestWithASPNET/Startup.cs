@@ -19,6 +19,8 @@ using RestWithASPNET.HyperMedia.Filters;
 using RestWithASPNET.Model.Context;
 using RestWithASPNET.Repository;
 using RestWithASPNET.Repository.Generic;
+using RestWithASPNET.Services;
+using RestWithASPNET.Services.Implementations;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -91,10 +93,13 @@ namespace RestWithASPNET
             var connection = Configuration["MySQLConnection:MySQLConnectionString"];
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
 
-            if (Environment.IsDevelopment())
-            {
-                MigrateDatabase(connection);
-            }
+
+            // Disable Evolve when Docker
+
+            //if (Environment.IsDevelopment())
+            //{
+            //    MigrateDatabase(connection);
+            //}
 
             var filterOptions = new HyperMediaFilterOptions();
             filterOptions.ContentResponseEnricherList.Add(new PersonEnricher());
@@ -111,7 +116,7 @@ namespace RestWithASPNET
                     {
                         Title = "REST APIs to Azure with ASP.NET Core 5 and Docker",
                         Version = "v1",
-                        Description = "Development of a RESTful API",
+                        Description = "Development of a RESTful API with CI/CD and Docker",
                         Contact = new OpenApiContact
                         {
                             Name = "Davidson Schaly",
@@ -126,6 +131,13 @@ namespace RestWithASPNET
 
             services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
             services.AddScoped<IBookBusiness, BookBusinessImplementation>();
+            services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
+            services.AddScoped<IFileBusiness, FileBusinessImplementation>();
+
+            services.AddTransient<ITokenService, TokenService>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
 
             services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }

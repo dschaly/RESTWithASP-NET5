@@ -37,7 +37,7 @@ namespace RestWithASPNET.Services.Implementations
             return tokenString;
         }
 
-        public string GererateRefreshToken()
+        public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
             using(var rng = RandomNumberGenerator.Create())

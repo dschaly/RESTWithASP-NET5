@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace RestWithASPNET.Controllers
 {
     [ApiVersion("1")]
-    [Route("api/[controller]/v{version::apiVersion}")]
+    [Route("api/[controller]/v{version:apiVersion}")]
     [ApiController]
     public class AuthController : ControllerBase
     {

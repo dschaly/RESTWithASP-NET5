@@ -10,8 +10,9 @@ namespace RestWithASPNET.Controllers
 {
 
     [ApiVersion("1")]
-    [ApiController]
     [Authorize("Bearer")]
+    //[AllowAnonymous]
+    [ApiController]
     [Route("api/[controller]/v{version:apiVersion}")]
     public class PersonController : ControllerBase
     {
@@ -57,9 +58,17 @@ namespace RestWithASPNET.Controllers
         [ProducesResponseType(401)]
         public IActionResult Get(long id)
         {
-            var person = _personBusiness.FindByID(id);
-            if (person == null) return NotFound();
-            return Ok(person);
+            //var person = _personBusiness.FindByID(id);
+            //if (person == null) return NotFound();
+            return Ok(new PersonDTO { 
+                Id = 999,
+                FirstName = "Teste",
+                LastName = "Final",
+                Address = "Test Street",
+                Enabled = true,
+                Gender = "Test",
+                Links = null
+            });
         }
 
         [HttpGet("findPersonByName")]
