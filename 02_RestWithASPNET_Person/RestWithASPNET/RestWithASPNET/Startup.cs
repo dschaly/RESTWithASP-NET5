@@ -98,7 +98,7 @@ namespace RestWithASPNET
 
             //if (Environment.IsDevelopment())
             //{
-            //    MigrateDatabase(connection);
+            //MigrateDatabase(connection);
             //}
 
             var filterOptions = new HyperMediaFilterOptions();

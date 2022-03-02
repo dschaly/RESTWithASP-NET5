@@ -2,10 +2,10 @@ sudo: required
 dist: bionic
 language: csharp
 mono: none
-dotnet:5.0
+dotnet: 3.1
 services: docker
 before_install:
-  - cd 02_RestWithASPNET_Person/
+  - cd 02_RestWithASPNET_Person/RestWithASPNET
   - echo "We are in the correct folder!"
  script:
   - docker-compose build
