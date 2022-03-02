@@ -38,12 +38,12 @@ namespace RestWithASPNET.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
         public IActionResult Get(
-            [FromQuery] string book,
+            [FromQuery] string title,
             string sortDirection,
             int pageSize,
             int page)
         {
-            return Ok(_bookBusiness.SearchPaged(book, sortDirection, pageSize, page));
+            return Ok(_bookBusiness.SearchPaged(title, sortDirection, pageSize, page));
         }
 
         // Maps GET requests to https://localhost:{port}/api/book/{id}

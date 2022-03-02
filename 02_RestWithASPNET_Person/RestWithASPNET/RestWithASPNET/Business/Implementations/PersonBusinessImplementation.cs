@@ -27,11 +27,11 @@ namespace RestWithASPNET.Business.Implementations
             var offset = page > 0 ? (page - 1) * size : 0;
 
             string query = @$"SELECT * FROM person P WHERE 1 = 1 ";
-            if (!string.IsNullOrWhiteSpace(name)) query += $"AND P.FirstName LIKE '%{name}%' ";
-            query += $"ORDER BY P.FirstName {sort} LIMIT {size} OFFSET {offset}";
+            if (!string.IsNullOrWhiteSpace(name)) query += $"AND P.first_name LIKE '%{name}%' ";
+            query += $"ORDER BY P.first_name {sort} LIMIT {size} OFFSET {offset}";
 
-            string countQuery = @$"SELECT COUNT(*) FROM Person P WHERE 1 = 1 ";
-            if (!string.IsNullOrWhiteSpace(name)) countQuery += $"AND P.FirstName LIKE '%{name}%'";
+            string countQuery = @$"SELECT COUNT(*) FROM person P WHERE 1 = 1 ";
+            if (!string.IsNullOrWhiteSpace(name)) countQuery += $"AND P.first_name LIKE '%{name}%'";
 
             var persons = _repository.FindPaged(query);
             int totalResults = _repository.GetCount(countQuery);

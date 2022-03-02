@@ -1,0 +1,13 @@
+sudo: required
+dist: bionic
+language: csharp
+mono: none
+dotnet:5.0
+services: docker
+before_install:
+  - cd 02_RestWithASPNET_Person/
+  - echo "We are in the correct folder!"
+ script:
+   - docker-compose build
+ before_deploy:
+ 

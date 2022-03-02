@@ -9,7 +9,6 @@ namespace RestWithASPNET.HyperMedia.Enricher
     public class BookEnricher : ContentResponseEnricher<BookDTO>
     {
         private readonly object _lock = new object();
-
         protected override Task EnrichModel(BookDTO content, IUrlHelper urlHelper)
         {
             var path = "api/book/v1";
@@ -38,19 +37,11 @@ namespace RestWithASPNET.HyperMedia.Enricher
             });
             content.Links.Add(new HyperMediaLink()
             {
-                Action = HttpActionVerb.PATCH,
-                Href = link,
-                Rel = RelationType.self,
-                Type = ResponseTypeFormat.DefaultPatch
-            });
-            content.Links.Add(new HyperMediaLink()
-            {
                 Action = HttpActionVerb.DELETE,
                 Href = link,
                 Rel = RelationType.self,
                 Type = "int"
             });
-
             return null;
         }
 
@@ -60,7 +51,7 @@ namespace RestWithASPNET.HyperMedia.Enricher
             {
                 var url = new { controller = path, id = id };
                 return new StringBuilder(urlHelper.Link("DefaultApi", url)).Replace("%2F", "/").ToString();
-            }
+            };
         }
     }
 }

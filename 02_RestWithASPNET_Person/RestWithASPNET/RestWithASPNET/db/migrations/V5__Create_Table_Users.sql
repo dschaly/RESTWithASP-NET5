@@ -1,11 +1,11 @@
-CREATE TABLE `rest_aspnet`.`users` (
-  `Id` INT NOT NULL AUTO_INCREMENT,
-  `UserName` VARCHAR(50) NOT NULL DEFAULT 0,
-  `Password` VARCHAR(130) NOT NULL DEFAULT 0,
-  `FullName` VARCHAR(120) NOT NULL,
-  `RefreshToken` VARCHAR(500) NULL DEFAULT 0,
-  `RefreshTokenExpiryTime` DATETIME NULL DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE INDEX `UserName_UNIQUE` (`UserName` ASC) VISIBLE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
+CREATE TABLE `users` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`user_name` VARCHAR(50) NOT NULL DEFAULT '0',
+	`password` VARCHAR(130) NOT NULL DEFAULT '0',
+	`full_name` VARCHAR(120) NOT NULL,
+	`refresh_token` VARCHAR(500) NULL DEFAULT '0',
+	`refresh_token_expiry_time` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE `user_name` (`user_name`)
+)
+ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -24,18 +24,18 @@ namespace RestWithASPNET.Business.Implementations
         {
             return _converter.Parse(_repository.FindAll());
         }
-        public PagedSearchDTO<BookDTO> SearchPaged(string book, string sortDirection, int pageSize, int page)
+        public PagedSearchDTO<BookDTO> SearchPaged(string title, string sortDirection, int pageSize, int page)
         {
             var sort = (!string.IsNullOrWhiteSpace(sortDirection) && !sortDirection.Equals("desc")) ? "asc" : "desc";
             var size = pageSize < 1 ? 10 : pageSize;
             var offset = page > 0 ? (page - 1) * size : 0;
 
             var query = @"SELECT * FROM books B WHERE 1 = 1 ";
-            if (!string.IsNullOrWhiteSpace(book)) query += $"AND B.Title LIKE '%{book}%' ";
-            query += $"ORDER BY B.Title {sort} LIMIT {size} OFFSET {offset}";
+            if (!string.IsNullOrWhiteSpace(title)) query += $"AND B.title LIKE '%{title}%' ";
+            query += $"ORDER BY B.title {sort} LIMIT {size} OFFSET {offset}";
 
-            string countQuery = @"SELECT COUNT(*) FROM Books B WHERE 1 = 1 ";
-            if (!string.IsNullOrWhiteSpace(book)) query += $"AND B.Title LIKE '%{book}%'";
+            string countQuery = @"SELECT COUNT(*) FROM books B WHERE 1 = 1 ";
+            if (!string.IsNullOrWhiteSpace(title)) query += $"AND B.title LIKE '%{title}%'";
 
             var books = _repository.FindPaged(query);
             var booksCount = _repository.GetCount(countQuery);
