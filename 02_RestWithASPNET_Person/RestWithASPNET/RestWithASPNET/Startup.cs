@@ -114,7 +114,7 @@ namespace RestWithASPNET
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
-                        Title = "REST APIs to Azure with ASP.NET Core 5 and Docker",
+                        Title = "REST APIs to Azure with ASP.NET Core 5 and Docker - Foo Bar",
                         Version = "v1",
                         Description = "Development of a RESTful API with CI/CD and Docker",
                         Contact = new OpenApiContact

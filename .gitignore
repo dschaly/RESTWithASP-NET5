@@ -399,3 +399,5 @@ FodyWeavers.xsd
 *.sln.iml
 .gitignore.bak
 .travis.yml.bak
+.bak
+docker-compose.dcproj.bak
