@@ -161,7 +161,7 @@ namespace RestWithASPNET
 
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
-                    "REST APIs to Azure with ASP.NET Core 5 and Docker");
+                    "REST APIs to Azure with ASP.NET Core 5 and Docker Foo Bar");
             });
 
             var option = new RewriteOptions();
