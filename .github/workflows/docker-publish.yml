@@ -1,0 +1,49 @@
+name: Continuous Integration with Github Actions
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+       
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Install the cosign tool except on PR
+      # https://github.com/sigstore/cosign-installer
+      - name: Docker Login - Azure Container Registry
+        uses: Azure/docker-login@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          login-server: ${{ secrets.DOCKER_CONTAINER_REGISTRY }}
+        
+      - name: Build Images
+        working-directory: ./02_RestWithASPNET_Person/RestWithASPNET
+        run: docker-compose build
+        
+      - name: Push to Azure Container Registry
+        run: | 
+          docker tag ${{ secrets.IMAGE_NAME }}:latest ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{github.run_id}}
+          docker push ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{github.run_id}}
+          
+      - name: Login in Azure to Deployment
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Azure WebApp Container - Application Deployment
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: dschaly-api-server
+          images: ${{ secrets.DOCKER_CONTAINER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:${{github.run_id}}
+      
+          
