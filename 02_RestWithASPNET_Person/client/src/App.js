@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React from "react";
 
 import './global.css'
 
-import Login from "./pages/Login";
+import Router from "./routes";
 
 export default function App() {
     return (
-      <Login/>
+      <Router/>
     );  
 }

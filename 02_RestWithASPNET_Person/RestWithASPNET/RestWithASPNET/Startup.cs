@@ -96,10 +96,10 @@ namespace RestWithASPNET
 
             // Disable Evolve when Docker
 
-            //if (Environment.IsDevelopment())
-            //{
-            //MigrateDatabase(connection);
-            //}
+            if (Environment.IsDevelopment())
+            {
+                MigrateDatabase(connection);
+            }
 
             var filterOptions = new HyperMediaFilterOptions();
             filterOptions.ContentResponseEnricherList.Add(new PersonEnricher());
