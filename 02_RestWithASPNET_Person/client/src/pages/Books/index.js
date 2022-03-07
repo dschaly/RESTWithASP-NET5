@@ -11,55 +11,79 @@ import logoImage from "../../assets/logo.svg";
 export default function Books() {
     const navigate = useNavigate();
     const [books, setBooks] = useState([]);
+    const [page, setPage] = useState(1);
+    const [pagesCount, setPagesCount] = useState(0);
 
     const userName = localStorage.getItem("userName");
 
     const accessToken = localStorage.getItem("accessToken");
 
+    const authorizationHeader = {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    };
+
     useEffect(() => {
-        api.get("api/Book/v1/asc/20/1", {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            },
-        }).then((response) => {
-            setBooks(response.data.list);
-        });
+        fetchPaginationBooks(true).then(() => {
+            alert('Loaded!');
+        },
+        (error) => {
+            alert(`Error: ${error}`);
+        })
     }, [accessToken]);
 
-    async function logout() {
-        try {
-            await api.get('api/auth/v1/revoke', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
+    async function fetchPaginationBooks(isNext) {
+        if (isNext)
+            setPage(page + 1);
+        else if (!isNext && page > 1)
+            setPage(page - 1)
+        
+        const response = await api.get(
+            `api/Book/v1/asc/4/${page}`,
+            authorizationHeader
+        );
 
-            localStorage.clear();
-            navigate('/');
-        } catch (error) {
-            alert('Logout failed! Try again!');
-        }    
+
+        // scrolling
+        setBooks([...books, ...response.data.list]);
+        setPage(page + 1);
+
+        // without scrolling
+        // setBooks(response.data.list);
+
+        setPagesCount(Math.floor(response.data.totalResults / response.data.pageSize));
     }
 
+    // Logout Method
+    async function logout() {
+        try {
+            await api.get("api/auth/v1/revoke", authorizationHeader);
+
+            localStorage.clear();
+            navigate("/");
+        } catch (error) {
+            alert("Logout failed! Try again!");
+        }
+    }
+
+    // Edit Book Method
     async function editBook(id) {
         try {
             navigate(`/book/new/${id}`);
         } catch (error) {
-            alert('Edit book failed! Try again!');
+            alert("Edit book failed! Try again!");
         }
     }
 
+    // Delete Book Method
     async function deleteBook(id) {
         try {
-            await api.delete(`api/Book/v1/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
+            await api.delete(`api/Book/v1/${id}`, authorizationHeader);
 
-            setBooks(books.filter(book => book.id !== id));
+            setBooks(books.filter((book) => book.id !== id));
         } catch (error) {
-            alert('Delete failed! Try again!');
+            alert("Delete failed! Try again!");
         }
     }
 
@@ -79,6 +103,15 @@ export default function Books() {
             </header>
 
             <h1>Registered Books</h1>
+            <div className="pagination">
+                {/* <button className="pagination-button" disabled={page === 1} onClick={() => fetchPaginationBooks(false)}>
+                    Load Previous
+                </button> */}
+
+                <button className="pagination-button" disabled={page === pagesCount} onClick={() => fetchPaginationBooks(true)}>
+                    Load More
+                </button>
+            </div>
             <ul>
                 {books.map((book) => (
                     <li key={book.id}>
@@ -94,13 +127,20 @@ export default function Books() {
                             }).format(book.price)}
                         </p>
                         <strong>Release Date:</strong>
-                        <p>{Intl.DateTimeFormat('pt-BR').format(new Date(book.launchDate))}</p>
+                        <p>
+                            {Intl.DateTimeFormat("pt-BR").format(
+                                new Date(book.launchDate)
+                            )}
+                        </p>
 
                         <button onClick={() => editBook(book.id)} type="button">
                             <FiEdit size={20} color="#251FC5"></FiEdit>
                         </button>
 
-                        <button onClick={() => deleteBook(book.id)} type="button">
+                        <button
+                            onClick={() => deleteBook(book.id)}
+                            type="button"
+                        >
                             <FiTrash2 size={20} color="#251FC5"></FiTrash2>
                         </button>
                     </li>
